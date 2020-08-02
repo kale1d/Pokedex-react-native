@@ -16,7 +16,6 @@ export const PokeDetail: React.FC<Props> = ({navigation, route}) => {
   const [pokemon, setPokemon] = useState<PokemonDetails | null>(null);
   const [loading, setLoading] = useState(false);
 
-  console.log(url);
   useEffect(() => {
     getPokemon();
   }, []);
@@ -37,7 +36,7 @@ export const PokeDetail: React.FC<Props> = ({navigation, route}) => {
       .catch((error) => console.error(error))
       .finally(() => setLoading(false));
   };
-  console.log(pokemon);
+
   return (
     <>
       {loading ? (
