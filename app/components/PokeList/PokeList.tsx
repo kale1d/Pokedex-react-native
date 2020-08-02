@@ -47,7 +47,6 @@ export const PokemonList: React.FC<Props> = ({navigation}) => {
       console.log(error);
     }
   };
-  console.log(allPokemon);
   return (
     <>
       {loading ? (

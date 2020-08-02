@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
-import {Text, View, Button, Image, StyleSheet, Dimensions} from 'react-native';
+import {Text, View, Image, StyleSheet, Dimensions} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
+import {PokemonDetails} from '../../api/models/pokemon.model';
 
 const width = Dimensions.get('window').width;
 
@@ -12,7 +13,7 @@ type Props = {
 
 export const PokeDetail: React.FC<Props> = ({navigation, route}) => {
   const {url} = route.params;
-  const [pokemon, setPokemon] = useState<any>({});
+  const [pokemon, setPokemon] = useState<PokemonDetails | null>(null);
   const [loading, setLoading] = useState(false);
 
   console.log(url);
@@ -45,26 +46,34 @@ export const PokeDetail: React.FC<Props> = ({navigation, route}) => {
         </View>
       ) : (
         <ScrollView contentContainerStyle={styles.container}>
-          <Text style={styles.titleHeader}>{pokemon.name}</Text>
-          <Image source={{uri: pokemon.imageUri}} style={styles.image} />
-          {pokemon.types &&
-            pokemon.types.map((type, i) => {
-              return (
-                <View key={i} style={styles.infoWrapper}>
-                  <Text style={[styles.font, styles.infoTitle]}>Type: </Text>
-                  <Text style={styles.font}>{type.type.name}</Text>
-                </View>
-              );
-            })}
-          {pokemon.abilities &&
-            pokemon.abilities.map((ability, j) => {
-              return (
-                <View key={j} style={styles.infoWrapper}>
-                  <Text style={[styles.font, styles.infoTitle]}>Ability: </Text>
-                  <Text style={styles.font}>{ability.ability.name}</Text>
-                </View>
-              );
-            })}
+          {pokemon && (
+            <>
+              <Text style={styles.titleHeader}>{pokemon.name}</Text>
+              <Image source={{uri: pokemon.imageUri}} style={styles.image} />
+              {pokemon.types &&
+                pokemon.types.map((type, i) => {
+                  return (
+                    <View key={i} style={styles.infoWrapper}>
+                      <Text style={[styles.font, styles.infoTitle]}>
+                        Type:{' '}
+                      </Text>
+                      <Text style={styles.font}>{type.type.name}</Text>
+                    </View>
+                  );
+                })}
+              {pokemon.abilities &&
+                pokemon.abilities.map((ability, j) => {
+                  return (
+                    <View key={j} style={styles.infoWrapper}>
+                      <Text style={[styles.font, styles.infoTitle]}>
+                        Ability:{' '}
+                      </Text>
+                      <Text style={styles.font}>{ability.ability.name}</Text>
+                    </View>
+                  );
+                })}
+            </>
+          )}
         </ScrollView>
       )}
     </>
